@@ -40,17 +40,17 @@ services:
   #   command: npm start
   #   depends_on:
   #     - api
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    env_file: .env
-    ports:
-      - "5050:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    depends_on:
-      - db
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   restart: always
+  #   env_file: .env
+  #   ports:
+  #     - "5050:80"
+  #   volumes:
+  #     - pgadmin_data:/var/lib/pgadmin
+  #   depends_on:
+  #     - db
 
 volumes:
   postgres_data:
-  pgadmin_data:
+  # pgadmin_data:

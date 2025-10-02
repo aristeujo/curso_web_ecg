@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from backend.app.database import Base, engine
+from backend.app.routers import auth
 
 Base.metadata.create_all(bind=engine)
 
@@ -18,3 +19,6 @@ app.add_middleware(
     allow_methods=["*"],        # métodos HTTP liberados: GET, POST, PUT, DELETE
     allow_headers=["*"],        # headers permitidos    
 )
+
+app.include_router(auth.router) 
+
