@@ -1,4 +1,12 @@
 import re
+from datetime import date, datetime
+
+def parse_birth_date(birth_date):
+    if birth_date in (None,""):
+        return None
+    if isinstance(birth_date, date):
+        return birth_date
+    return datetime.strptime(birth_date, "%d/%m/%Y").date()
 
 def normalize_phone_br(v: str) -> str:
     # v = "+55 (92) 98424-4668"
