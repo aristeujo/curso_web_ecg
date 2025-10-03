@@ -32,8 +32,37 @@ class Patient(Base):
     phone: Mapped[str] = mapped_column(String(20), nullable=False, index=True, unique=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     
-    # triages: Mapped[list["Triage"]] = relationship(
-    #     back_populates="patient", 
-    #     cascade="all, delete-orphan",
-    #     passive_deletes=True,
-    # )
+    triages: Mapped[list["Triage"]] = relationship(
+        back_populates="patient", 
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+    )
+
+class Triage(Base):
+    __tablename__ = "triages"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    patient_id: Mapped[int] = mapped_column(
+        ForeignKey("patients.id", ondelete="CASCADE"),
+        index=True,
+        nullable=False,
+    )
+    glucose_mg_dl: Mapped[float] = mapped_column(Float, nullable=False)
+    heart_rate_bpm: Mapped[int] = mapped_column(nullable=False)
+
+    triage_date: Mapped[date] = mapped_column(Date, nullable=False)
+    triage_time: Mapped[str] = mapped_column(String(5), nullable=False) 
+
+    pressure: Mapped[str] = mapped_column(String(15), nullable=True)
+    systolic_mmHg: Mapped[int] = mapped_column(nullable=True)
+    diastolic_mmHg: Mapped[int] = mapped_column(nullable=True)
+    weight_kg: Mapped[float] = mapped_column(Float, nullable=False)
+    height_cm: Mapped[float] = mapped_column(Float, nullable=False)
+    notes: Mapped[str | None] = mapped_column(String, nullable=True)
+    fasting: Mapped[bool] = mapped_column(nullable=False, default=False)
+
+    created_at: Mapped["DateTime"] = mapped_column(
+        DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
+
+    patient: Mapped["Patient"] = relationship(back_populates="triages")
